@@ -8,7 +8,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="return as lightning, SWY&#39;s Workshop">
+    <meta name="keywords" content="hsqldb源代码阅读（一）, SWY&#39;s Workshop">
     <meta name="description" content="python java-android c cpp ♂">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -20,7 +20,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>return as lightning | SWY&#39;s Workshop</title>
+    <title>hsqldb源代码阅读（一） | SWY&#39;s Workshop</title>
     <link rel="icon" type="image/png" href="/favicons.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">return as lightning</h1>
+                    <h1 class="description center-align post-title">hsqldb源代码阅读（一）</h1>
                 </div>
             </div>
         </div>
@@ -440,14 +440,27 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C-C-C-P/">
-                                <span class="chip bg-color">C.C.C.P.</span>
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
+                            </a>
+                        
+                            <a href="/tags/database/">
+                                <span class="chip bg-color">database</span>
                             </a>
                         
                     </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Java/" class="post-category">
+                                Java
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -465,7 +478,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    23
+                    625
                 </div>
                 
 
@@ -478,10 +491,40 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Congratulations-to-My-Reborn"><a href="#Congratulations-to-My-Reborn" class="headerlink" title="Congratulations to My Reborn!"></a>Congratulations to My Reborn!</h1><p>This blog is going to be updated with <a href="https://blog.csdn.net/swy_swy_swy/article/list?orderby=ViewCount" target="_blank" rel="noopener">CSDN</a> concurrently.</p>
-<p><img src="./return.png" alt></p>
-<center>C.C.C.P. (1922-1953) Dead but Immortal</center>
-
+                <h1 id="hsqldb-源代码阅读（一）"><a href="#hsqldb-源代码阅读（一）" class="headerlink" title="hsqldb 源代码阅读（一）"></a>hsqldb 源代码阅读（一）</h1><h2 id="服务器启动与初始化"><a href="#服务器启动与初始化" class="headerlink" title="服务器启动与初始化"></a>服务器启动与初始化</h2><p>以debug模式启动服务器，到如图断点<br><img src="./1.png" alt><br>观察此时的调用堆栈：<br><img src="./2.png" alt><br>从下至上，为</p>
+<ul>
+<li>run:310, Server$ServerThread(org.hsqldb.server): 这是开启了一个服务器线程</li>
+<li>access$000:238,Server(org.hsqldb.server): 这里应该是实例化一个Server</li>
+<li>run:2029,Server(org.hsqldb,server): 这里是启动这个Server</li>
+<li>openDatabase:1695,Server(org.hsqldb.server): 这里是尝试打开一个初始的database文件</li>
+<li>getDatabase:184,DatabaseManager(org.hsqldb): 这里利用上面打开的database文件实例化一个database对象</li>
+<li>getDatabase:243,DatabaseManager(org.hsqldb): 同上</li>
+</ul>
+<p>继续运行，到如图断点：<br><img src="./3.png" alt><br>堆栈新增：getDatabase:259,DatabaseManager(org.hsqldb) 开启初始数据库<br>继续运行，到如图断点：<br><img src="./4.png" alt><br>堆栈新增：createObjectStructures:307,Database(org.sqldb) 此处应该是加载初始数据库的元数据<br>继续运行，到如图断点：<br><img src="./5.png" alt><br>注意，此时堆栈新增了较多数据，我们从下至上来看：</p>
+<ul>
+<li>newDatabaseInformation:338,DatabaseInformation(org.hsqldb.dbinfo): 创建元数据的实例</li>
+<li>newInstance: 423,Constructor(java.lang.reflect): 构建constructoraccessor，也就是数据库文件的slot模型</li>
+<li>newInstance:45,DelegatingConstructorAccessorImpl(sun.reflect): 同上</li>
+<li>newInstance:62,NativeConstructorAccessorImpl(sun.reflect): 同上</li>
+<li>newInstance0:-1,NativeConstructorlmpl(sun.reflect): 同上</li>
+<li><init>:157,DatabaseInformationFull(org.hsqldb.dbinfo): 将元数据与数据库绑定</init></li>
+<li><init>:200,DatabaseInformationMain(org.hsqldb.dbinfo): 为系统表分配内存，底层数据结构为普通的数组</init></li>
+</ul>
+<p>继续运行，到如图断点：<br><img src="./6.png" alt><br>此时的调用栈;</p>
+<ul>
+<li><init>:231,DatabaseInformationMain(org.hsqldb.dbinfo): 和session有关</init></li>
+<li><init>:382,DatabaseInformationMain(org.hsqldb.dbinfo): 开始初始化系统表</init></li>
+</ul>
+<p>继续运行，到如图断点：<br><img src="./7.png" alt><br>此时调用栈有较大变化，我们从下至上看：</p>
+<ul>
+<li>init:383,DatabaseInformationMain(org.hsqldb.dbinfo): 同上</li>
+<li>generateTable:423,DatabaseInformationFull(org.hsqldb.dbinfo): 同下</li>
+<li>generateTable:305,DatabaseInformationMain(org.hsqldb.dbinfo): 同下</li>
+<li>SYSTEM_BESTROWIDENTIFIER:652,DatabaseInformationMain(org.hsqldb.dbinfo): 建立主键关系约束</li>
+<li>createPrimaryKeyConstraint:1802,Table(org.hsqldb): 同上</li>
+<li>createPrimaryKey:1795,Table(org.hsqldb): 确定哪一个属性是主键</li>
+</ul>
+<p>继续运行，到如图断点：<br><img src="./8.png" alt><br>createPrimaryIndex:363,TableBase(org.hsqldb): 准备建立索引表，创建根节点（索引表的底层数据结构是B+树）<br>继续运行，到如上图368行断点：<br>就是建立树的过程，把节点逐一地添加到树上<br>继续运行，你会发现进入到上两个图之间的循环，就是初始化索引表，然后索引表每个节点对应的表初始化一遍。<br>在循环中，继续运行，到如图断点：<br><img src="./9.png" alt><br>为创建的表添加约束<br>之和继续循环，23333<br>继续运行，到如下断点：<br><img src="./10.png" alt><br>这里好像是有关自动提交的，我不确定</p>
 
             </div>
             <hr/>
@@ -507,7 +550,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://swy20190.github.io/2020/04/07/return-as-lightning/">http://swy20190.github.io/2020/04/07/return-as-lightning/</a>
+                    <a href="http://swy20190.github.io/2020/04/07/hsqldb-yuan-dai-ma-yue-du-yi/">http://swy20190.github.io/2020/04/07/hsqldb-yuan-dai-ma-yue-du-yi/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -545,8 +588,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C-C-C-P/">
-                                    <span class="chip bg-color">C.C.C.P.</span>
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
+                                </a>
+                            
+                                <a href="/tags/database/">
+                                    <span class="chip bg-color">database</span>
                                 </a>
                             
                         </div>
@@ -712,9 +759,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/04/07/hsqldb-yuan-dai-ma-yue-du-yi/">
                     <div class="card-image">
@@ -734,9 +782,9 @@ run:310, Server$ServerThread(org.hsqldb.server): 这是开启了一个服务器
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-07
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-07
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -749,6 +797,7 @@ run:310, Server$ServerThread(org.hsqldb.server): 这是开启了一个服务器
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -771,33 +820,31 @@ run:310, Server$ServerThread(org.hsqldb.server): 这是开启了一个服务器
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/06/csapp-solution/">
+                <a href="/2020/04/07/return-as-lightning/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="csapp-solution">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="return as lightning">
                         
-                        <span class="card-title">csapp-solution</span>
+                        <span class="card-title">return as lightning</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            solution to book csapp
+                            Congratulations to My Reborn!This blog is going to be updated with CSDN concurrently.
+
+C.C.C.P. (1922-1953) Dead but Imm
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-06
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-07
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/c/" class="post-category">
-                                    c
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            swy_swy_swy
                             
                         </span>
                     </div>
@@ -805,16 +852,8 @@ run:310, Server$ServerThread(org.hsqldb.server): 这是开启了一个服务器
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/c/">
-                        <span class="chip bg-color">c</span>
-                    </a>
-                    
-                    <a href="/tags/csapp/">
-                        <span class="chip bg-color">csapp</span>
-                    </a>
-                    
-                    <a href="/tags/solutions/">
-                        <span class="chip bg-color">solutions</span>
+                    <a href="/tags/C-C-C-P/">
+                        <span class="chip bg-color">C.C.C.P.</span>
                     </a>
                     
                 </div>
