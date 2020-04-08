@@ -478,7 +478,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    625
+                    1.1k
                 </div>
                 
 
@@ -524,7 +524,24 @@
 <li>createPrimaryKeyConstraint:1802,Table(org.hsqldb): 同上</li>
 <li>createPrimaryKey:1795,Table(org.hsqldb): 确定哪一个属性是主键</li>
 </ul>
-<p>继续运行，到如图断点：<br><img src="./8.png" alt><br>createPrimaryIndex:363,TableBase(org.hsqldb): 准备建立索引表，创建根节点（索引表的底层数据结构是B+树）<br>继续运行，到如上图368行断点：<br>就是建立树的过程，把节点逐一地添加到树上<br>继续运行，你会发现进入到上两个图之间的循环，就是初始化索引表，然后索引表每个节点对应的表初始化一遍。<br>在循环中，继续运行，到如图断点：<br><img src="./9.png" alt><br>为创建的表添加约束<br>之和继续循环，23333<br>继续运行，到如下断点：<br><img src="./10.png" alt><br>这里好像是有关自动提交的，我不确定</p>
+<p>继续运行，到如图断点：<br><img src="./8.png" alt><br>createPrimaryIndex:363,TableBase(org.hsqldb): 准备建立索引表，创建根节点（索引表的底层数据结构是B+树）<br>继续运行，到如上图368行断点：<br>就是建立树的过程，把节点逐一地添加到树上<br>继续运行，你会发现进入到上两个图之间的循环，就是初始化索引表，然后索引表每个节点对应的表初始化一遍。<br>在循环中，继续运行，到如图断点：<br><img src="./9.png" alt><br>为创建的表添加约束<br>之和继续循环，23333<br>继续运行，到如下断点：<br><img src="./10.png" alt><br>这里好像是有关自动提交的，我不确定<br>继续运行，到如下断点：<br><img src="./11.png" alt><br>堆栈情况：</p>
+<ul>
+<li>processScript:734,Log(org.hsqldb.persist): 从创建的脚本读入session。这里的scr类似文件流。</li>
+<li>readAll:115,ScriptReaderText(org.hsqldb.scriptio): 读入数据定义语言（DDL）</li>
+<li>readDDL:143,ScriptReaderText(org.hsqldb.scriptio): 加载编译过的DDL</li>
+<li>executeCompiledStatement:1419,Session(org.hsqldb): 不明</li>
+</ul>
+<p>继续运行，到如上上图断点，进入循环<br>然后会循环到之前索引表的部分，继续运行，循环结束，如下图：<br><img src="./12.png" alt><br>在这个位置会循环一段时间，应该是逐一地从系统表按顺序获得节点，然后把这个节点插入到B+蜀上（注释中写的是AVL树，B+树其实是AVL树的一种）<br>继续运行，程序没有反应，可知此时初始化已经完毕，服务器处于监听状态。我们结束Server运行，并以run模式重新运行之，准备下面的对客户端的代码阅读</p>
+<h2 id="客户端启动与初始化"><a href="#客户端启动与初始化" class="headerlink" title="客户端启动与初始化"></a>客户端启动与初始化</h2><p>以debug模式运行DatabaseManagerSwing，至第一个断点，如下：<br><img src="./13.png" alt><br>我们看看堆栈的变化：</p>
+<ul>
+<li>connect:228,JDBCDriver</li>
+<li>getConnection:277,JDBCDriver</li>
+<li><init>:3434,JDBCConnecion: 以上三步都是通过JDBC连接数据库，因为hsqldb的前端是Java AWT写的，连接到服务器需要通过JDBC</init></li>
+<li>newSession:157,DatabaseManager: 获得database的实例</li>
+</ul>
+<p>继续运行，到如下断点：<br><img src="./14.png" alt><br>开启这个数据库（与前面服务器的初始化很像）<br>继续运行，到如下断点：<br><img src="./15.png" alt><br>之后一段完全是服务器初始化的再现<br>大段循环之后，客户端进入监听模式，如下图：<br><img src="./16.png" alt></p>
+<h2 id="数据库创建表，插入-删除数据"><a href="#数据库创建表，插入-删除数据" class="headerlink" title="数据库创建表，插入/删除数据"></a>数据库创建表，插入/删除数据</h2><p>在客户端执行</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">table</span> personmem<span class="token punctuation">(</span>id char<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">,</span>name <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">,</span>age <span class="token keyword">int</span><span class="token punctuation">,</span>undergraduate <span class="token keyword">boolean</span><span class="token punctuation">,</span>birth_year <span class="token keyword">numeric</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>birthdate <span class="token keyword">date</span><span class="token punctuation">,</span><span class="token keyword">primary</span> <span class="token keyword">key</span> <span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 
             </div>
             <hr/>
@@ -1089,7 +1106,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">768</span>&nbsp;字
+                class="white-color">1.2k</span>&nbsp;字
             
             
             
