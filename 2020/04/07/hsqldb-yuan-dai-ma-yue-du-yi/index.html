@@ -478,14 +478,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    1.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    7 分
                 </div>
                 
 
@@ -557,6 +557,33 @@
 <span class="token keyword">delete</span> <span class="token keyword">from</span> personmem <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token string">'00000002'</span><span class="token punctuation">;</span>
 <span class="token keyword">insert</span> <span class="token keyword">into</span> personmem <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token string">'00000003'</span><span class="token punctuation">,</span> <span class="token string">'student3'</span><span class="token punctuation">,</span> <span class="token number">22</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">1995</span><span class="token punctuation">,</span> <span class="token string">'1995-01-01'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>script文件变化如下：<br><img src="./17.png" alt><br>行了，就到这里。</p>
+<p>好了，我又回来了<br>现在我们研究cached table 在底层的存储机制<br>我们观察test.log,test.script,test.data这三个文件<br>首先，把之前实验的personmem删掉</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">drop</span> <span class="token keyword">table</span> personmem</code></pre>
+<p>然后，在客户端进行以下输入：</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">create</span> cached <span class="token keyword">table</span> personcache<span class="token punctuation">(</span>id char<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">,</span>name <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">,</span>age <span class="token keyword">int</span><span class="token punctuation">,</span>undergraduate <span class="token keyword">boolean</span><span class="token punctuation">,</span>birth_year <span class="token keyword">numeric</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>birthdate <span class="token keyword">date</span><span class="token punctuation">,</span><span class="token keyword">primary</span> <span class="token keyword">key</span> <span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">insert</span> <span class="token keyword">into</span> personcache <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token string">'00000001'</span><span class="token punctuation">,</span> <span class="token string">'student1'</span><span class="token punctuation">,</span> <span class="token number">22</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">1995</span><span class="token punctuation">,</span> <span class="token string">'1995-01-01'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">insert</span> <span class="token keyword">into</span> personcache <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token string">'00000002'</span><span class="token punctuation">,</span> <span class="token string">'student2'</span><span class="token punctuation">,</span> <span class="token number">22</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">1995</span><span class="token punctuation">,</span> <span class="token string">'1995-01-01'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">delete</span> <span class="token keyword">from</span> personcache <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token string">'00000002'</span><span class="token punctuation">;</span>
+<span class="token keyword">insert</span> <span class="token keyword">into</span> personcache <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token string">'00000003'</span><span class="token punctuation">,</span> <span class="token string">'student3'</span><span class="token punctuation">,</span> <span class="token number">22</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">1995</span><span class="token punctuation">,</span> <span class="token string">'1995-01-01'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>看到，log文件变化如下：<br><img src="./18.png" alt><br>注意，这里没有设置检查点，所以log文件所有的变化都按照时间被显示出来<br>设置检查点，输入checkpoint .log文件清空, .script文件记录数据，生成.data文件：<br>.script文件：<br><img src="./19.png" alt><br>.data文件：<br><img src="./20.png" alt><br>我们可以发现，这里对于永久数据的写入采取了“懒惰”策略，即关于先被插入，后被删除的student2的数据没有在.script中出现<br>下面我们研究一下text table在hsqldb底层的实现<br>首先，我们把之前的cached table drop掉</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">drop</span> <span class="token keyword">table</span> personcache</code></pre>
+<p>设置检查点</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">checkpoint</span></code></pre>
+<p>然后输入如下：</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">create</span> <span class="token keyword">text</span> <span class="token keyword">table</span> persontext<span class="token punctuation">(</span>id char<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">,</span>name <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">,</span>age <span class="token keyword">int</span><span class="token punctuation">,</span>undergraduate <span class="token keyword">boolean</span><span class="token punctuation">,</span>birth_year <span class="token keyword">numeric</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>birthdate <span class="token keyword">date</span><span class="token punctuation">,</span><span class="token keyword">primary</span> <span class="token keyword">key</span> <span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">SET</span> <span class="token keyword">TABLE</span> <span class="token keyword">PUBLIC</span><span class="token punctuation">.</span>persontext SOURCE <span class="token string">"persontextdata;fs=|"</span><span class="token punctuation">;</span></code></pre>
+<p>以上两句要分开输入，否则会报错<br>.log文件如下：<br><img src="./21.png" alt><br>然后输入以下语句：</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">insert</span> <span class="token keyword">into</span> persontext <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token string">'00000001'</span><span class="token punctuation">,</span> <span class="token string">'student1'</span><span class="token punctuation">,</span> <span class="token number">22</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">1995</span><span class="token punctuation">,</span> <span class="token string">'1995-01-01'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">insert</span> <span class="token keyword">into</span> persontext <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token string">'00000002'</span><span class="token punctuation">,</span> <span class="token string">'student2'</span><span class="token punctuation">,</span> <span class="token number">22</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">1995</span><span class="token punctuation">,</span> <span class="token string">'1995-01-01'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">delete</span> <span class="token keyword">from</span> persontext <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token string">'00000002'</span><span class="token punctuation">;</span>
+<span class="token keyword">insert</span> <span class="token keyword">into</span> persontext <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token string">'00000003'</span><span class="token punctuation">,</span> <span class="token string">'student3'</span><span class="token punctuation">,</span> <span class="token number">22</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token number">1995</span><span class="token punctuation">,</span> <span class="token string">'1995-01-01'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>.log文件如下：<br><img src="./22.png" alt><br>设置检查点后：<br>.log清空<br>.script记录元数据：<br><img src="./23.png" alt><br>在.log文件的同级目录下多出了一个名为persontextdata的文件：<br><img src="./24.png" alt></p>
+<p>那么，缓存的替换机制是怎样的？<br>缓存是以row为单位的。当要提交一个插入的行时，先检查它是否在缓存内。若是，则加入缓存。然后，在缓存中把这个row标记为已经读入主存，以免重复读入。<br>缓存的容量如何管理？<br>两个变量exceedsCount与exceedsSize分别记录row条数与总量大小是否超过当前分配的内存限制。如果超了，逐一地增加分配的单元。更新之后，检查二者是否有为0的，如果有，就把这块内存清除（相当于垃圾回收）</p>
+<p>Cached/Text Table 增删改数据时外存文件的变化？</p>
+<ul>
+<li>Cached Table无论如何操作，都不会对外存文件有影响</li>
+<li>Text Table只有在设置检查点后，才会写入外存文件，而且写入的是当前的状态，不记录插入或删除的历史。</li>
+</ul>
 
             </div>
             <hr/>
@@ -1121,7 +1148,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">1.3k</span>&nbsp;字
+                class="white-color">1.9k</span>&nbsp;字
             
             
             
