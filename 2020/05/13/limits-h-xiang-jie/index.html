@@ -8,7 +8,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="return as lightning, SWY&#39;s Workshop">
+    <meta name="keywords" content="limits.h详解, SWY&#39;s Workshop">
     <meta name="description" content="python java-android c cpp ♂">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -20,7 +20,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>return as lightning | SWY&#39;s Workshop</title>
+    <title>limits.h详解 | SWY&#39;s Workshop</title>
     <link rel="icon" type="image/png" href="/favicons.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">return as lightning</h1>
+                    <h1 class="description center-align post-title">limits.h详解</h1>
                 </div>
             </div>
         </div>
@@ -440,14 +440,23 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C-C-C-P/">
-                                <span class="chip bg-color">C.C.C.P.</span>
+                            <a href="/tags/c/">
+                                <span class="chip bg-color">c</span>
                             </a>
                         
                     </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/c/" class="post-category">
+                                c
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -456,7 +465,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-04-07
+                    2020-05-13
                 </div>
                 
 
@@ -465,14 +474,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    23
+                    939
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    4 分
                 </div>
                 
 
@@ -487,10 +496,57 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Congratulations-to-My-Reborn"><a href="#Congratulations-to-My-Reborn" class="headerlink" title="Congratulations to My Reborn!"></a>Congratulations to My Reborn!</h1><p>This blog is going to be updated with <a href="https://blog.csdn.net/swy_swy_swy/article/list?orderby=ViewCount" target="_blank" rel="noopener">CSDN</a> concurrently.</p>
-<p><img src="./return.png" alt></p>
-<center>C.C.C.P. (1922-1953) Dead but Immortal</center>
-
+                <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="lt-limits-h-gt"><a href="#lt-limits-h-gt" class="headerlink" title="&lt;limits.h&gt;"></a>&lt;limits.h&gt;</h3><p>头文件&lt;limits.h&gt;定义了一些表示整型大小的常量。以下所列的值是可接受的最小值，在实际系统中可以使用更大的值。<br>|宏|值|备注|<br>|-|-|-|<br>|CHAR_BIT| 8| char 类型的位数|<br>|CHAR_MAX| UCHAR_MAX 或 SCHAR_MAX| char 类型的最大值|<br>|CHAR_MIN| 0 或 SCHAR_MIN| char 类型的最小值|<br>|INT_MAX |32767| int 类型的最大值|<br>|INT_MIN| -32767| int 类型的最小值 |<br>|LONG_MAX| 2147483647| long 类型的最大值|<br>|LONG_MIN| -2147483647| long 类型的最小值|<br>|SCHAR_MAX| +127| signed char 类型的最大值|<br>|SCHAR_MIN| -127| signed char 类型的最小值|<br>|SHRT_MAX| +32767 |short 类型的最大值|<br>|SHRT_MIN| -32767| short 类型的最小值 |<br>|UCHAR_MAX| 255| unsigned char 类型的最大值|<br>|UINT_MAX| 65535| unsigend int 类型的最大值|<br>|ULONG_MAX| 4294967295| unsigned long 类型的最大值|<br>|USHRT_MAX| 65535| unsigned short 类型的最大值 |</p>
+<h3 id="lt-float-h-gt"><a href="#lt-float-h-gt" class="headerlink" title="&lt;float.h&gt;"></a>&lt;float.h&gt;</h3><p>下表列出的名字是&lt;float.h&gt;的一个子集，它们是与浮点算术运算相关的一些常量。给出的每个值代表相应量的最小取值。各个实现可以定义适当的值。<br>|宏|值|备注|<br>|-|-|-|<br>|FLT_RADIX| 2| 指数表示的基数，例如 2、16|<br>|FLT_ROUNDS|-1（无法确定）；0（趋向于0）；1（趋向最近的值）；2（趋向于正无穷）；3（趋向于负无穷）|  加法的浮点舍入模式|<br>|FLT_DIG| 6| 表示精度的十进制数字|<br>|FLT_EPSILON| 1E-5| 最小的数 x，x 满足：1.0 + x ≠ 1.0|<br>|FLT_MANT_DIG|-|  尾数中的数（以 FLT_RADIX 为基数）|<br>|FLT_MAX| 1E+37| 最大的浮点数|<br>|FLT_MAX_EXP|-|  最大的数 n，n 满足 FLT_RADIX^n-1 仍是可表示的|<br>|FLT_MIN| 1E-37| 最小的规格化浮点数|<br>|FLT_MIN_EXP|-|  最小的数 n，n 满足：10^n是一个规格化数|<br>|DBL_DIG| 10| 表示精度的十进制数字|<br>|DBL_EPSILON| 1E-9| 最小的数 x，x 满足：1.0 + x ≠ 1.0|<br>|DBL_MANT_DIG|-|  尾数中的数（以 FLT_RADIX 为基数）|<br>|DBL_MAX| 1E+37| 最大的双精度浮点数 |<br>|DBL_MAX_EXP|-|  最大的数 n，n 满足 FLT_RADIX^n-1 仍是可表示的|<br>|DBL_MIN| 1E-37| 最小的规格化双精度浮点数|<br>|DBL_MIN_EXP|-|  最小的数 n，n 满足：10n是一个规格化数 |</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="lt-limits-h-gt-1"><a href="#lt-limits-h-gt-1" class="headerlink" title="&lt;limits.h&gt;"></a>&lt;limits.h&gt;</h3><p>代码：</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;limits.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The number of bits in a byte %d\n"</span><span class="token punctuation">,</span> CHAR_BIT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The minimum value of SIGNED CHAR = %d\n"</span><span class="token punctuation">,</span> SCHAR_MIN<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The maximum value of SIGNED CHAR = %d\n"</span><span class="token punctuation">,</span> SCHAR_MAX<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The maximum value of UNSIGNED CHAR = %d\n"</span><span class="token punctuation">,</span> UCHAR_MAX<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The minimum value of SHORT INT = %d\n"</span><span class="token punctuation">,</span> SHRT_MIN<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The maximum value of SHORT INT = %d\n"</span><span class="token punctuation">,</span> SHRT_MAX<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The minimum value of INT = %d\n"</span><span class="token punctuation">,</span> INT_MIN<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The maximum value of INT = %d\n"</span><span class="token punctuation">,</span> INT_MAX<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The minimum value of CHAR = %d\n"</span><span class="token punctuation">,</span> CHAR_MIN<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The maximum value of CHAR = %d\n"</span><span class="token punctuation">,</span> CHAR_MAX<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The minimum value of LONG = %ld\n"</span><span class="token punctuation">,</span> LONG_MIN<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The maximum value of LONG = %ld\n"</span><span class="token punctuation">,</span> LONG_MAX<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+   <span class="token keyword">return</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>输出：</p>
+<pre class=" language-bash"><code class="language-bash">PS G:\CSAPP<span class="token operator">></span>  <span class="token operator">&amp;</span> <span class="token string">'c:\Users\swy\.vscode\extensions\ms-vscode.cpptools-0.27.1\debugAdapters\bin\WindowsDebugLauncher.exe'</span> <span class="token string">'--stdin=Microsoft-MIEngine-In-mq52rrfg.0x4'</span> <span class="token string">'--stdout=Microsoft-MIEngine-Out-ip53akbp.xpk'</span> <span class="token string">'--stderr=Microsoft-MIEngine-Error-w2wgdudi.u2t'</span> <span class="token string">'--pid=Microsoft-MIEngine-Pid-2z44vy4h.eqv'</span> <span class="token string">'--dbgExe=G:\x86_64-8.1.0-release-posix-sjlj-rt_v6-rev0\mingw64\bin\gdb.exe'</span> <span class="token string">'--interpreter=mi'</span>
+The number of bits <span class="token keyword">in</span> a byte 8
+The minimum value of SIGNED CHAR <span class="token operator">=</span> -128
+The maximum value of SIGNED CHAR <span class="token operator">=</span> 127
+The maximum value of UNSIGNED CHAR <span class="token operator">=</span> 255
+The minimum value of SHORT INT <span class="token operator">=</span> -32768
+The maximum value of SHORT INT <span class="token operator">=</span> 32767
+The minimum value of INT <span class="token operator">=</span> -2147483648
+The maximum value of INT <span class="token operator">=</span> 2147483647
+The minimum value of CHAR <span class="token operator">=</span> -128
+The maximum value of CHAR <span class="token operator">=</span> 127
+The minimum value of LONG <span class="token operator">=</span> -2147483648
+The maximum value of LONG <span class="token operator">=</span> 2147483647
+PS G:\CSAPP<span class="token operator">></span></code></pre>
+<h3 id="lt-float-h-gt-1"><a href="#lt-float-h-gt-1" class="headerlink" title="&lt;float.h&gt;"></a>&lt;float.h&gt;</h3><p>代码：</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;float.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The maximum value of float = %.10e\n"</span><span class="token punctuation">,</span> FLT_MAX<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The minimum value of float = %.10e\n"</span><span class="token punctuation">,</span> FLT_MIN<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"The number of digits in the number = %.10e\n"</span><span class="token punctuation">,</span> FLT_MANT_DIG<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>输出：</p>
+<pre class=" language-bash"><code class="language-bash">PS G:\CSAPP<span class="token operator">></span>  <span class="token operator">&amp;</span> <span class="token string">'c:\Users\swy\.vscode\extensions\ms-vscode.cpptools-0.27.1\debugAdapters\bin\WindowsDebugLauncher.exe'</span> <span class="token string">'--stdin=Microsoft-MIEngine-In-vvxt3sdn.m45'</span> <span class="token string">'--stdout=Microsoft-MIEngine-Out-lxfp3hgw.ny4'</span> <span class="token string">'--stderr=Microsoft-MIEngine-Error-uyop3yxf.gya'</span> <span class="token string">'--pid=Microsoft-MIEngine-Pid-flbfwpeh.hj3'</span> <span class="token string">'--dbgExe=G:\x86_64-8.1.0-release-posix-sjlj-rt_v6-rev0\mingw64\bin\gdb.exe'</span> <span class="token string">'--interpreter=mi'</span> 
+The maximum value of float <span class="token operator">=</span> 3.4028234664e+038
+The minimum value of float <span class="token operator">=</span> 1.1754943508e-038
+The number of digits <span class="token keyword">in</span> the number <span class="token operator">=</span> 1.1857575500e-322
+PS G:\CSAPP<span class="token operator">></span> </code></pre>
 
             </div>
             <hr/>
@@ -506,7 +562,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://swy20190.github.io" rel="external nofollow noreferrer">swy_swy_swy</a>
+                    <a href="http://swy20190.github.io" rel="external nofollow noreferrer">swy</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -516,7 +572,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://swy20190.github.io/2020/04/07/return-as-lightning/">http://swy20190.github.io/2020/04/07/return-as-lightning/</a>
+                    <a href="http://swy20190.github.io/2020/05/13/limits-h-xiang-jie/">http://swy20190.github.io/2020/05/13/limits-h-xiang-jie/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -529,7 +585,7 @@
                     本博客所有文章除特別声明外，均采用
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     许可协议。转载请注明来源
-                    <a href="http://swy20190.github.io" target="_blank">swy_swy_swy</a>
+                    <a href="http://swy20190.github.io" target="_blank">swy</a>
                     !
                 </span>
             </div>
@@ -554,8 +610,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C-C-C-P/">
-                                    <span class="chip bg-color">C.C.C.P.</span>
+                                <a href="/tags/c/">
+                                    <span class="chip bg-color">c</span>
                                 </a>
                             
                         </div>
@@ -984,9 +1040,60 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2020/05/13/limits-h-xiang-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="limits.h详解">
+                        
+                        <span class="card-title">limits.h详解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            概述&lt;limits.h&gt;头文件&lt;limits.h&gt;定义了一些表示整型大小的常量。以下所列的值是可接受的最小值，在实际系统中可以使用更大的值。|宏|值|备注||-|-|-||CHAR_BIT| 8| char 类型的位
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/c/" class="post-category">
+                                    c
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/c/">
+                        <span class="chip bg-color">c</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2020/04/07/hsqldb-yuan-dai-ma-yue-du-yi/">
                     <div class="card-image">
@@ -1006,9 +1113,9 @@ run:310, Server$ServerThread(org.hsqldb.server): 这是开启了一个服务器
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-07
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-07
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1030,63 +1137,6 @@ run:310, Server$ServerThread(org.hsqldb.server): 这是开启了一个服务器
                     
                     <a href="/tags/database/">
                         <span class="chip bg-color">database</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/04/06/csapp-solution/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="csapp-solution">
-                        
-                        <span class="card-title">csapp-solution</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            solution to book csapp
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-06
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/c/" class="post-category">
-                                    c
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/c/">
-                        <span class="chip bg-color">c</span>
-                    </a>
-                    
-                    <a href="/tags/csapp/">
-                        <span class="chip bg-color">csapp</span>
-                    </a>
-                    
-                    <a href="/tags/solutions/">
-                        <span class="chip bg-color">solutions</span>
                     </a>
                     
                 </div>
